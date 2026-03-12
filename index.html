@@ -1,4 +1,4 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <!-- Google tag (gtag.js) -->
@@ -106,22 +106,40 @@
 
 <script>
     function updateTimer() {
-        const startDate = new Date(2024,0,0,2,0);
-        const now = new Date();
-        const diff = now - startDate;
+        var tz = 'America/Toronto';
+        var now = new Date();
 
-        const seconds = Math.floor(diff / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
+        // Obtenir l'heure actuelle en composantes du fuseau Québec
+        var fmt = new Intl.DateTimeFormat('en-CA', {
+            timeZone: tz,
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: false
+        });
+        var parts = {};
+        fmt.formatToParts(now).forEach(function(p) {
+            parts[p.type] = parseInt(p.value, 10);
+        });
 
-        const s = seconds % 60;
-        const m = minutes % 60;
-        const h = hours % 24;
+        // Utiliser Date.UTC pour éviter que le fuseau local du navigateur
+        // n'introduise un décalage DST entre startQc (EST) et nowQc (EDT)
+        var nowQc = Date.UTC(parts.year, parts.month - 1, parts.day, parts.hour, parts.minute, parts.second);
 
-        document.getElementById("daysText").textContent = `${days} jours`;
+        // Départ : minuit le 1er janvier 2024, heure du Québec
+        var startQc = Date.UTC(2024, 0, 1, 0, 0, 0);
+
+        var diff = nowQc - startQc;
+        var totalSeconds = Math.floor(diff / 1000);
+
+        // Comptage ordinal : le 1er janvier 2024 = jour 1
+        var days = Math.floor(totalSeconds / 86400) + 1;
+        var h = Math.floor((totalSeconds % 86400) / 3600);
+        var m = Math.floor((totalSeconds % 3600) / 60);
+        var s = totalSeconds % 60;
+
+        document.getElementById("daysText").textContent = days + ' jours';
         document.getElementById("timeText").textContent =
-            `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
     }
 
     setInterval(updateTimer, 1000);
