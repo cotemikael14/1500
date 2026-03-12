@@ -1,0 +1,132 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N7LSV68NYB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-N7LSV68NYB');
+</script>
+<meta charset="UTF-8">
+<title>Compteur</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: #00ffea;
+        font-family: "Roboto Mono", monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    h1 {
+        margin-top: 2vh;
+        margin-bottom: 3vh;
+        font-size: 4vw;
+        color: #fff;
+        text-shadow: 0 0 20px #00f0ff;
+    }
+
+    /* Timer en responsive : une ou deux lignes selon la largeur */
+    #timer {
+        font-weight: bold;
+        letter-spacing: 3px;
+        text-shadow: 0 0 30px #00ffe5;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 10vw;
+        max-width: 95%;
+    }
+
+    #timer span {
+        display: block;
+    }
+
+    /* Petit écran → timer sur deux lignes */
+    @media (max-width: 600px) {
+        #timer {
+            flex-direction: column;
+            font-size: 14vw;
+        }
+    }
+
+    /* Grand écran → une seule ligne */
+    @media (min-width: 800px) {
+        #timer {
+            flex-direction: row;
+            font-size: 7vw;
+        }
+    }
+
+    .logo-container {
+        display: flex;
+        gap: 5vw;
+        margin-top: 5vh;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .logo-container img {
+        height: 20vw;
+        max-height: 220px;
+        filter: drop-shadow(0 0 20px #00ffe5);
+    }
+
+</style>
+</head>
+
+<body>
+
+<h1>SANS CONVENTION COLLECTIVE DEPUIS :</h1>
+
+<div id="timer">
+    <span id="daysText">0 jours</span>
+    <span id="timeText">00:00:00</span>
+</div>
+
+<div class="logo-container">
+    <img src="scfp1500.png" alt="SCFP 1500">
+    <img src="scfp957.png" alt="SCFP 957">
+</div>
+
+<script>
+    function updateTimer() {
+        const startDate = new Date(2024,0,0,2,0);
+        const now = new Date();
+        const diff = now - startDate;
+
+        const seconds = Math.floor(diff / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+
+        const s = seconds % 60;
+        const m = minutes % 60;
+        const h = hours % 24;
+
+        document.getElementById("daysText").textContent = `${days} jours`;
+        document.getElementById("timeText").textContent =
+            `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+</script>
+
+</body>
+</html>
