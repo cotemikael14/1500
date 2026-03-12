@@ -15,6 +15,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+  /* Animation de flash rouge */
+@keyframes flashRed {
+    0%, 100% { color: #00ffea; text-shadow: 0 0 30px #00ffe5; } /* Couleur turquoise d'origine */
+    50% { color: #ff0000; text-shadow: 0 0 40px #ff0000; }     /* Rouge vif avec éclat */
+}
+
+/* On applique l'animation uniquement au texte des jours */
+#daysText {
+    animation: flashRed 1.5s infinite; /* 1.5 seconde par cycle, en boucle */
+}
+
     body {
         margin: 0;
         padding: 0;
