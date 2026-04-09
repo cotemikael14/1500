@@ -104,9 +104,7 @@
 </style>
 </head>
 
-<body>
-
-<h1>SANS CONVENTION COLLECTIVE DEPUIS :</h1>
+<h1 id="mainTitle">SANS CONVENTION COLLECTIVE DEPUIS :</h1>
 
 <div id="timer">
     <span id="daysText">0 jours</span>
@@ -158,6 +156,74 @@
 
     setInterval(updateTimer, 1000);
     updateTimer();
+
+// Liste de phrases
+const phrases = [
+    "EXPLOITÉS DEPUIS :",
+    "SANS AUGMENTATION DEPUIS :",
+    "TRAVAILLER PLUS, GAGNER MOINS DEPUIS :",
+    "ABUSÉS DEPUIS :",
+    "IGNORÉS DEPUIS :",
+    "PRIS POUR ACQUIS DEPUIS :",
+    "MAIN-D’ŒUVRE JETABLE DEPUIS :",
+    "AUCUNE RECONNAISSANCE DEPUIS :",
+    "SANS CONVENTION, SANS RESPECT DEPUIS :",
+    "DROITS BAFOUÉS DEPUIS :",
+    "NÉGOCIATIONS BLOQUÉES DEPUIS :",
+    "INJUSTICE SALARIALE DEPUIS :",
+    "SILENCE IMPOSÉ DEPUIS :",
+    "TRAVAIL SANS JUSTE PART DEPUIS :",
+    "ON NOUS EXPLOITE DEPUIS :",
+    "ON NOUS MÉPRISE DEPUIS :",
+    "ON NOUS DOIT DEPUIS :",
+    "ÇA SUFFIT DEPUIS :",
+    "ASSEZ, C’EST ASSEZ DEPUIS :",
+    "ÇA DURE TROP LONGTEMPS DEPUIS :",
+    "STATU QUO INACCEPTABLE DEPUIS :",
+    "IMMOBILISME TOTAL DEPUIS :",
+    "AUCUN PROGRÈS DEPUIS :",
+    "0 AVANCÉE DEPUIS :"
+];
+
+let lastIndex = -1;
+
+// Fonction aléatoire sans répétition immédiate
+function getRandomPhrase() {
+    let index;
+    do {
+        index = Math.floor(Math.random() * phrases.length);
+    } while (index === lastIndex);
+
+    lastIndex = index;
+    return phrases[index];
+}
+
+// Met à jour le texte
+function updatePhrase() {
+    document.getElementById("mainTitle").textContent = getRandomPhrase();
+}
+
+// Planifie EXACTEMENT à la prochaine heure pile
+function scheduleNextUpdate() {
+    const now = new Date();
+
+    const msUntilNextHour =
+        (60 - now.getMinutes()) * 60000 -
+        now.getSeconds() * 1000 -
+        now.getMilliseconds();
+
+    setTimeout(() => {
+        updatePhrase();
+
+        // Ensuite chaque heure pile
+        setInterval(updatePhrase, 3600000);
+
+    }, msUntilNextHour);
+}
+
+// Initialisation
+updatePhrase();       // au chargement
+scheduleNextUpdate(); // synchro heure pile
 </script>
 
 </body>
